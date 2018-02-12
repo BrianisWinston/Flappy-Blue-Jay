@@ -46,7 +46,7 @@ This project will be implemented with the following technologies:
 ### Day 1: Setup
 - [ ] Set up files.
 - [ ] Spend time familiarizing myself with DOM Manipulation.
-- [ ] Think about my map layout.
+- [ ] Create some game logic.
 
 ### Day 2: Game logic
 - [ ] Come up with game logic create character movement.
