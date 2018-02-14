@@ -5,6 +5,8 @@ canvas.width = window.innerWidth - 10;
 canvas.height = window.innerHeight - 10;
 let c = canvas.getContext('2d');
 
+let pipeSpeed = 6;
+
 let rectangle = {
   x: 100,
   y: window.innerHeight - 50,
@@ -36,8 +38,13 @@ let controller = {
 
 let loop = function() {
   if (controller.up && rectangle.jumping == false ) {
-    rectangle.yVel -= 70;
+    rectangle.yVel -= 10;
     rectangle.jumping = true;
+  }
+
+  if (controller.up && rectangle.jumping == true) {
+    rectangle.yVel -= 10;
+    rectangle.yVel *= 0.8;
   }
 
   if (controller.left) {
@@ -95,7 +102,7 @@ function Pipe() {
   this.bottom = Math.floor(Math.random() * window.innerHeight/2);
   this.x = window.innerWidth;
   this.w = 20;
-  this.speed = 2;
+  this.speed = pipeSpeed;
 
   this.highlight = false;
 
@@ -104,6 +111,7 @@ function Pipe() {
       if (rectangle.x > this.x && rectangle.x < this.x + this.w) {
         this.highlight = true;
         return true;
+        console.log("HIT");
       }
     }
     this.highlight = false;
@@ -111,12 +119,13 @@ function Pipe() {
   }
 
   this.show = function() {
-    // fill(255);
-    // if (this.highlight) {
-    //   fill(255, 0, 0);
-    // }
+    c.fillStyle = "red"
+    if (this.highlight) {
+      c.fillStyle = "red";
+    }
+    c.fillStyle = "black";
     c.fillRect(this.x, 0, 100, this.top);
-    c.fillRect(this.x, 500, 100, this.bottom);
+    c.fillRect(this.x, window.innerHeight + 50, 100, this.bottom);
   }
 
   this.update = function() {
@@ -134,6 +143,7 @@ function Pipe() {
 
 let pipes = [];
 let frameCount = 0;
+let times = 0;
 pipes.push(new Pipe());
 function draw() {
   for (var i = pipes.length-1; i >= 0; i--) {
@@ -142,6 +152,7 @@ function draw() {
 
     if (pipes[i].hits(rectangle)) {
       alert("YOU SUCK");
+      // console.log("you suck");
     }
 
 
@@ -153,9 +164,19 @@ function draw() {
   }
 
   ++frameCount;
-  if (frameCount % 200 == 0) {
+  if (frameCount % 60 == 0) {
     pipes.push(new Pipe());
     frameCount = 0;
+    ++times;
+    if (times === 10) {
+      pipeSpeed += 10
+      console.log(times);
+      times = 0;
+      for (var i = pipes.length-1; i >= 0; i--) {
+        pipes[i].speed = pipeSpeed;
+      }
+      console.log(times);
+    }
   }
 
 
