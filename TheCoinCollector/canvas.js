@@ -1,67 +1,164 @@
-// var canvas = document.querySelector('canvas');
+var canvas = document.querySelector('canvas');
+// let canvas = document.createElement("canvas"),
 
-// canvas.width = window.innerWidth;
-// canvas.height = window.innerHeight;
-// let c = canvas.getContext('2d');
-// c.fillRect(0, 500, 200, 200);
-// c.fillRect(360, 200, 100, 400);
-// c.fillRect(700, 500, 300, 200);
-// c.fillRect(500, 300, 50, 50);
+canvas.width = window.innerWidth - 10;
+canvas.height = window.innerHeight - 10;
+let c = canvas.getContext('2d');
 
-var myGamePiece;
+let rectangle = {
+  x: 100,
+  y: window.innerHeight - 50,
+  xVel: 0,
+  yVel: 0,
+  jumping: true,
+};
 
-function startGame() {
-    myGameArea.start();
-    myGamePiece = new component(300, 100, "blue", 40, 600);
-}
+let controller = {
+  left: false,
+  right: false,
+  up: false,
+  keyListener: function(event) {
+    let key_state = (event.type == "keydown") ? true : false;
 
-var myGameArea = {
-    canvas : document.createElement("canvas"),
-    start : function() {
-        this.canvas.width = window.innerWidth - 10;
-        this.canvas.height = window.innerHeight - 40;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 20);
-        window.addEventListener('keydown', function (e) {
-            myGameArea.key = e.keyCode;
-        })
-        window.addEventListener('keyup', function (e) {
-            myGameArea.key = false;
-        })
-    },
-    clear : function(){
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    switch(event.keyCode) {
+      case 37:
+        controller.left = key_state;
+      break;
+      case 39:
+        controller.right = key_state;
+      break;
+      case 32:
+        controller.up = key_state;
+      break;
     }
+  }
+};
+
+let loop = function() {
+  if (controller.up && rectangle.jumping == false ) {
+    rectangle.yVel -= 70;
+    rectangle.jumping = true;
+  }
+
+  if (controller.left) {
+    rectangle.xVel -= 2;
+  }
+
+  if (controller.right) {
+    rectangle.xVel += 2;
+  }
+
+  rectangle.yVel += 3;
+  rectangle.x += rectangle.xVel;
+  rectangle.y += rectangle.yVel;
+  rectangle.xVel *= 0.9;
+  rectangle.yVel *= 0.9;
+
+  if (rectangle.y > window.innerHeight - 100) {
+    rectangle.jumping = false;
+    rectangle.y = window.innerHeight - 100;
+    rectangle.yVel = 0;
+  }
+
+  if (rectangle.x < -50) {
+
+    rectangle.x = window.innerWidth;
+
+  } else if (rectangle.x > window.innerWidth + 30) {
+
+    rectangle.x = -49;
+
+  }
+
+  c.fillStyle = "white";
+  c.fillRect(0, 0, window.innerWidth, window.innerHeight);
+  c.fillStyle = "#ff0000";
+  c.fillRect(rectangle.x, rectangle.y, 50, 50);
+  // c.beginPath();
+  c.strokeStyle = "black";
+  c.lineWidth = 4;
+  // c.beginPath();
+  c.moveTo(0, window.innerHeight - 50);
+  c.lineTo(window.innerWidth, window.innerHeight - 50);
+  c.stroke();
+  window.requestAnimationFrame(loop);
+};
+
+
+window.addEventListener("keydown", controller.keyListener);
+window.addEventListener("keyup", controller.keyListener);
+window.requestAnimationFrame(loop);
+
+
+function Pipe() {
+  this.top = Math.floor(Math.random() * window.innerHeight/2);
+  this.bottom = Math.floor(Math.random() * window.innerHeight/2);
+  this.x = window.innerWidth;
+  this.w = 20;
+  this.speed = 2;
+
+  this.highlight = false;
+
+  this.hits = function(rectangle) {
+    if (rectangle.y < this.top || rectangle.y > window.innerHeight - this.bottom) {
+      if (rectangle.x > this.x && rectangle.x < this.x + this.w) {
+        this.highlight = true;
+        return true;
+      }
+    }
+    this.highlight = false;
+    return false;
+  }
+
+  this.show = function() {
+    // fill(255);
+    // if (this.highlight) {
+    //   fill(255, 0, 0);
+    // }
+    c.fillRect(this.x, 0, 100, this.top);
+    c.fillRect(this.x, 500, 100, this.bottom);
+  }
+
+  this.update = function() {
+    this.x -= this.speed;
+  }
+
+  this.offscreen = function() {
+    if (this.x < -this.w) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
-function component(width, height, color, x, y) {
-    this.gamearea = myGameArea;
-    this.width = width;
-    this.height = height;
-    this.speedX = 0;
-    this.speedY = 0;
-    this.x = x;
-    this.y = y;
-    this.update = function() {
-        ctx = myGameArea.context;
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
-    this.newPos = function() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-    }
-}
+let pipes = [];
+let frameCount = 0;
+pipes.push(new Pipe());
+function draw() {
+  for (var i = pipes.length-1; i >= 0; i--) {
+    pipes[i].show();
+    pipes[i].update();
 
-function updateGameArea() {
-    myGameArea.clear();
-    myGamePiece.speedX = 0;
-    myGamePiece.speedY = 0;
-    if (myGameArea.key && myGameArea.key == 37) {myGamePiece.speedX = -10; }
-    if (myGameArea.key && myGameArea.key == 39) {myGamePiece.speedX = 10; }
-    if (myGameArea.key && myGameArea.key == 38) {myGamePiece.speedY = -10; }
-    if (myGameArea.key && myGameArea.key == 40) {myGamePiece.speedY = 10; }
-    myGamePiece.newPos();
-    myGamePiece.update();
+    if (pipes[i].hits(rectangle)) {
+      alert("YOU SUCK");
+    }
+
+
+    if (pipes[i].offscreen()) {
+      pipes.splice(i, 1);
+    }
+
+
+  }
+
+  ++frameCount;
+  if (frameCount % 200 == 0) {
+    pipes.push(new Pipe());
+    frameCount = 0;
+  }
+
+
+  window.requestAnimationFrame(draw);
 }
+window.requestAnimationFrame(draw);
