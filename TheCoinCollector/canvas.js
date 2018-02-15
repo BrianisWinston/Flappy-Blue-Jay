@@ -125,7 +125,8 @@ function Pipe() {
     }
     c.fillStyle = "black";
     c.fillRect(this.x, 0, 100, this.top);
-    c.fillRect(this.x, window.innerHeight + 50, 100, this.bottom);
+    c.fillRect(this.x, window.innerHeight - this.bottom, 100, this.bottom);
+    console.log(window.innerHeight);
   }
 
   this.update = function() {
@@ -133,7 +134,7 @@ function Pipe() {
   }
 
   this.offscreen = function() {
-    if (this.x < -this.w) {
+    if (this.x < -this.w - 80) {
       return true;
     } else {
       return false;
@@ -151,8 +152,8 @@ function draw() {
     pipes[i].update();
 
     if (pipes[i].hits(rectangle)) {
-      alert("YOU SUCK");
-      // console.log("you suck");
+      // alert("YOU SUCK");
+      console.log("you suck");
     }
 
 
@@ -169,7 +170,7 @@ function draw() {
     frameCount = 0;
     ++times;
     if (times === 10) {
-      pipeSpeed += 10
+      pipeSpeed *= 1.2
       console.log(times);
       times = 0;
       for (var i = pipes.length-1; i >= 0; i--) {
