@@ -6,9 +6,10 @@ canvas.height = window.innerHeight - 10;
 let c = canvas.getContext('2d');
 
 let pipeSpeed = 6;
+let rectLeftPull = 4;
 
 let rectangle = {
-  x: 100,
+  x: window.innerWidth - 200,
   y: window.innerHeight - 50,
   xVel: 0,
   yVel: 0,
@@ -55,11 +56,16 @@ let loop = function() {
     rectangle.xVel += 2;
   }
 
+  console.log(Math.floor(rectangle.x));
   rectangle.yVel += 3;
   rectangle.x += rectangle.xVel;
   rectangle.y += rectangle.yVel;
   rectangle.xVel *= 0.9;
   rectangle.yVel *= 0.9;
+
+  if (controller.left == false && controller.right == false && controller.up == false) {
+    rectangle.x -= rectLeftPull;
+  }
 
   if (rectangle.y > window.innerHeight - 100) {
     rectangle.jumping = false;
@@ -67,14 +73,18 @@ let loop = function() {
     rectangle.yVel = 0;
   }
 
-  if (rectangle.x < -50) {
+  if (rectangle.x < 0) {
 
-    rectangle.x = window.innerWidth;
+    rectangle.x = 0;
 
-  } else if (rectangle.x > window.innerWidth + 30) {
+  } else if (rectangle.x > window.innerWidth - 55) {
 
-    rectangle.x = -49;
+    rectangle.x = window.innerWidth - 55;
 
+  }
+
+  if (rectangle.y < 0) {
+    rectangle.y = 0
   }
 
   c.fillStyle = "white";
@@ -98,8 +108,14 @@ window.requestAnimationFrame(loop);
 
 
 function Pipe() {
-  this.top = Math.floor(Math.random() * window.innerHeight/2);
-  this.bottom = Math.floor(Math.random() * window.innerHeight/2);
+  this.top = Math.floor(Math.random() * ((window.innerHeight/2) - 50));
+  if (this.top < 150) {
+    this.top = 150;
+  }
+  this.bottom = Math.floor(Math.random() * ((window.innerHeight/2) - 50));
+  if (this.bottom < 150) {
+    this.bottom = 150;
+  }
   this.x = window.innerWidth;
   this.w = 20;
   this.speed = pipeSpeed;
@@ -126,7 +142,6 @@ function Pipe() {
     c.fillStyle = "black";
     c.fillRect(this.x, 0, 100, this.top);
     c.fillRect(this.x, window.innerHeight - this.bottom, 100, this.bottom);
-    console.log(window.innerHeight);
   }
 
   this.update = function() {
@@ -153,7 +168,7 @@ function draw() {
 
     if (pipes[i].hits(rectangle)) {
       // alert("YOU SUCK");
-      console.log("you suck");
+      // console.log("you suck");
     }
 
 
@@ -163,14 +178,15 @@ function draw() {
 
 
   }
-
+// Increase game speed/difficulty
   ++frameCount;
   if (frameCount % 60 == 0) {
     pipes.push(new Pipe());
     frameCount = 0;
     ++times;
     if (times === 10) {
-      pipeSpeed *= 1.2
+      pipeSpeed *= 1.2;
+      rectLeftPull *= 1.2;
       console.log(times);
       times = 0;
       for (var i = pipes.length-1; i >= 0; i--) {
