@@ -1,21 +1,23 @@
-var canvas = document.querySelector('canvas');
+var canvas = document.getElementById('game');
 // let canvas = document.createElement("canvas"),
 
-canvas.width = window.innerWidth - 10;
-canvas.height = window.innerHeight - 10;
+canvas.width = 1000;
+canvas.height = 600;
 let c = canvas.getContext('2d');
+let devil = document.getElementById('img');
 
 let pipeSpeed = 6;
 let rectLeftPull = 4;
 
 let rectangle = {
-  x: window.innerWidth - 200,
-  y: window.innerHeight - 50,
+  width: 50,
+  height: 50,
+  x: canvas.width - 200,
+  y: canvas.height - 50,
   xVel: 0,
   yVel: 0,
   jumping: true,
 };
-
 let controller = {
   left: false,
   right: false,
@@ -56,7 +58,7 @@ let loop = function() {
     rectangle.xVel += 2;
   }
 
-  console.log(Math.floor(rectangle.x));
+  // console.log(Math.floor(rectangle.x));
   rectangle.yVel += 3;
   rectangle.x += rectangle.xVel;
   rectangle.y += rectangle.yVel;
@@ -67,19 +69,20 @@ let loop = function() {
     rectangle.x -= rectLeftPull;
   }
 
-  if (rectangle.y > window.innerHeight - 100) {
+  if (rectangle.y > canvas.height - 50 - rectangle.height) {
     rectangle.jumping = false;
-    rectangle.y = window.innerHeight - 100;
+    rectangle.y = canvas.height - 50 - rectangle.height;
     rectangle.yVel = 0;
   }
 
-  if (rectangle.x < 0) {
+  // if (rectangle.x < 0) {
+  //
+  //   rectangle.x = 0;
+  //
+  // } else
+  if (rectangle.x > canvas.width - 55) {
 
-    rectangle.x = 0;
-
-  } else if (rectangle.x > window.innerWidth - 55) {
-
-    rectangle.x = window.innerWidth - 55;
+    rectangle.x = canvas.width - 55;
 
   }
 
@@ -88,16 +91,18 @@ let loop = function() {
   }
 
   c.fillStyle = "white";
-  c.fillRect(0, 0, window.innerWidth, window.innerHeight);
+  c.fillRect(0, 0, canvas.width, canvas.height);
   c.fillStyle = "#ff0000";
-  c.fillRect(rectangle.x, rectangle.y, 50, 50);
+  c.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
   // c.beginPath();
   c.strokeStyle = "black";
   c.lineWidth = 4;
   // c.beginPath();
-  c.moveTo(0, window.innerHeight - 50);
-  c.lineTo(window.innerWidth, window.innerHeight - 50);
+  c.moveTo(0, canvas.height - 50);
+  c.lineTo(canvas.width, canvas.height - 50);
   c.stroke();
+  c.drawImage(devil, 250, 150, 300, 200, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+
   window.requestAnimationFrame(loop);
 };
 
@@ -108,28 +113,68 @@ window.requestAnimationFrame(loop);
 
 
 function Pipe() {
-  this.top = Math.floor(Math.random() * ((window.innerHeight/2) - 50));
-  if (this.top < 150) {
-    this.top = 150;
-  }
-  this.bottom = Math.floor(Math.random() * ((window.innerHeight/2) - 50));
-  if (this.bottom < 150) {
-    this.bottom = 150;
-  }
-  this.x = window.innerWidth;
-  this.w = 20;
+  this.top = 150 + (Math.floor(Math.random() * ((canvas.height/2) - 250)));
+  // if (this.top < 150) {
+  //   this.top = 150;
+  // }
+  this.bottom = 150 + (Math.floor(Math.random() * ((canvas.height/2) - 250)));
+  // if (this.bottom < 150) {
+  //   this.bottom = 150;
+  // }
+  this.x = canvas.width;
+  this.w = 80;
   this.speed = pipeSpeed;
 
   this.highlight = false;
 
   this.hits = function(rectangle) {
-    if (rectangle.y < this.top || rectangle.y > window.innerHeight - this.bottom) {
+    // LEFT SIDE OF PIPE LEFT SIDE OF RECT
+    if (rectangle.y + 10 < this.top || rectangle.y + rectangle.height - 10 > canvas.height - this.bottom) {
       if (rectangle.x > this.x && rectangle.x < this.x + this.w) {
         this.highlight = true;
         return true;
-        console.log("HIT");
       }
     }
+    // LEFT SIDE OF PIPE RIGHT SIDE OF RECT
+    if (rectangle.y + 10 < this.top || rectangle.y + rectangle.height - 10 > canvas.height - this.bottom) {
+      if (rectangle.x + rectangle.width - 6 > this.x && rectangle.x + rectangle.height < this.x + this.w) {
+        this.highlight = true;
+        return true;
+      }
+    }
+
+    if (rectangle.x < -25) {
+      this.highlight = true;
+      return true;
+    }
+
+    // RIGHT SIDE OF PIPE LEFT SIDE OF RECT
+    // if (rectangle.y < this.top || rectangle.y + rectangle.height > canvas.height - this.bottom) {
+    //   if (rectangle.x < this.x + this.w && rectangle.x > this.x) {
+    //     this.highlight = true;
+    //     return true;
+    //     console.log("HIT");
+    //   }
+    // }
+
+    // TOP AND BOTTOM SIDES OF PIPES
+    // if (rectangle.x + rectangle.width > this.x && rectangle.x + rectangle.height < this.x + this.w) {
+    //   if (rectangle.y < this.top || rectangle.y > canvas.height - this.bottom) {
+    //     this.highlight = true;
+    //     return true;
+    //   }
+    // }
+    //
+    // if (rectangle.x > this.x && rectangle.x < this.x + this.w) {
+    //   if (rectangle.y < this.top || rectangle.y + rectangle.height > canvas.height - this.bottom) {
+    //     this.highlight = true;
+    //     return true;
+    //     console.log("HIT");
+    //   }
+    // }
+
+
+
     this.highlight = false;
     return false;
   }
@@ -138,10 +183,13 @@ function Pipe() {
     c.fillStyle = "red"
     if (this.highlight) {
       c.fillStyle = "red";
-    }
+      c.fillRect(this.x, canvas.height - this.bottom, this.w, this.bottom);
+      c.fillRect(this.x, 0, this.w, this.top);
+    } else {
     c.fillStyle = "black";
-    c.fillRect(this.x, 0, 100, this.top);
-    c.fillRect(this.x, window.innerHeight - this.bottom, 100, this.bottom);
+    c.fillRect(this.x, 0, this.w, this.top);
+    c.fillRect(this.x, canvas.height - this.bottom, this.w, this.bottom);
+    }
   }
 
   this.update = function() {
@@ -154,6 +202,12 @@ function Pipe() {
     } else {
       return false;
     }
+  }
+
+  this.gameOver = function(rectangle) {
+    pipeSpeed = 0;
+    rectangle.xVel = 0;
+    rectangle.yVel *= 0.9;
   }
 }
 
@@ -169,6 +223,7 @@ function draw() {
     if (pipes[i].hits(rectangle)) {
       // alert("YOU SUCK");
       // console.log("you suck");
+      pipes[i].gameOver;
     }
 
 
@@ -184,15 +239,15 @@ function draw() {
     pipes.push(new Pipe());
     frameCount = 0;
     ++times;
-    if (times === 10) {
+    if (times === 5) {
       pipeSpeed *= 1.2;
       rectLeftPull *= 1.2;
-      console.log(times);
+      // console.log(times);
       times = 0;
       for (var i = pipes.length-1; i >= 0; i--) {
         pipes[i].speed = pipeSpeed;
       }
-      console.log(times);
+      // console.log(times);
     }
   }
 

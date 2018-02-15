@@ -6,7 +6,15 @@
     <style type="text/css">
       canvas {
         border: 1px solid black;
+        padding-left: 0;
+      padding-right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
       }
+
+      /* #container { position: relative; } */
+      /* .canvas { position: absolute; top: 100; left: 100; } */
 
       body {
         margin: 0px;
@@ -14,7 +22,11 @@
     </style>
   </head>
   <body>
-    <canvas></canvas>
-    <script src="canvas.js"></script>
+    <div id="container">
+      <canvas class="canvas" id="game"></canvas>
+      <img id="img" src="/Users/Invictus/Desktop/App_Academy/JSP/TheCoinCollector/images/flying-devil.png" alt="Devil"
+      style="display: none;">
+      <script src="canvas.js"></script>
+    </div>
   </body>
 </html>
