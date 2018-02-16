@@ -4,20 +4,39 @@ var canvas = document.getElementById('game');
 canvas.width = 1000;
 canvas.height = 600;
 let c = canvas.getContext('2d');
-let devil = document.getElementById('img');
-
+let bird = document.getElementById('img');
+let bg = document.getElementById('BG');
+let bod = document.getElementById('BOD');
+let bgSpeed = 1;
 let pipeSpeed = 6;
-let rectLeftPull = 4;
+let rectLeftPull = 2;
+let lost;
 
 let rectangle = {
-  width: 50,
-  height: 50,
-  x: canvas.width - 200,
+  width: 100,
+  height: 70,
+  x: canvas.width - 500,
   y: canvas.height - 50,
   xVel: 0,
   yVel: 0,
   jumping: true,
 };
+
+function Background() {
+  this.x = 0,
+  this.y = 0,
+  this.w = canvas.width,
+  this.h = canvas.height,
+  this.render = function() {
+    c.drawImage(bg, this.x -= bgSpeed, 0);
+    if (this.x <= -1896) {
+      this.x = 0;
+    }
+  }
+}
+
+let background = new Background();
+
 let controller = {
   left: false,
   right: false,
@@ -41,13 +60,13 @@ let controller = {
 
 let loop = function() {
   if (controller.up && rectangle.jumping == false ) {
-    rectangle.yVel -= 10;
+    rectangle.yVel -= 6;
     rectangle.jumping = true;
   }
 
   if (controller.up && rectangle.jumping == true) {
-    rectangle.yVel -= 10;
-    rectangle.yVel *= 0.8;
+    rectangle.yVel -= 6;
+    rectangle.yVel *= 0.5;
   }
 
   if (controller.left) {
@@ -59,7 +78,7 @@ let loop = function() {
   }
 
   // console.log(Math.floor(rectangle.x));
-  rectangle.yVel += 3;
+  rectangle.yVel += 0.5;
   rectangle.x += rectangle.xVel;
   rectangle.y += rectangle.yVel;
   rectangle.xVel *= 0.9;
@@ -69,17 +88,17 @@ let loop = function() {
     rectangle.x -= rectLeftPull;
   }
 
-  if (rectangle.y > canvas.height - 50 - rectangle.height) {
+  if (rectangle.y > canvas.height - rectangle.height) {
     rectangle.jumping = false;
-    rectangle.y = canvas.height - 50 - rectangle.height;
+    rectangle.y = canvas.height - rectangle.height;
     rectangle.yVel = 0;
   }
 
-  // if (rectangle.x < 0) {
-  //
-  //   rectangle.x = 0;
-  //
-  // } else
+  if (rectangle.x < -rectangle.width) {
+
+    rectangle.x = 0;
+
+  }
   if (rectangle.x > canvas.width - 55) {
 
     rectangle.x = canvas.width - 55;
@@ -92,16 +111,16 @@ let loop = function() {
 
   c.fillStyle = "white";
   c.fillRect(0, 0, canvas.width, canvas.height);
-  c.fillStyle = "#ff0000";
+  // c.fillStyle = "#ff0000";
+  // -------------------------------------------------------------------------------------------------------------------------------------
   c.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
-  // c.beginPath();
-  c.strokeStyle = "black";
-  c.lineWidth = 4;
-  // c.beginPath();
-  c.moveTo(0, canvas.height - 50);
-  c.lineTo(canvas.width, canvas.height - 50);
-  c.stroke();
-  c.drawImage(devil, 250, 150, 300, 200, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+  background.render();
+  if (controller.up) {
+    c.drawImage(bird, 1200, 458, 590, 350, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+  } else {
+    c.drawImage(bird, 00, 50, 580, 350, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+  };
+
 
   window.requestAnimationFrame(loop);
 };
@@ -114,13 +133,7 @@ window.requestAnimationFrame(loop);
 
 function Pipe() {
   this.top = 150 + (Math.floor(Math.random() * ((canvas.height/2) - 250)));
-  // if (this.top < 150) {
-  //   this.top = 150;
-  // }
   this.bottom = 150 + (Math.floor(Math.random() * ((canvas.height/2) - 250)));
-  // if (this.bottom < 150) {
-  //   this.bottom = 150;
-  // }
   this.x = canvas.width;
   this.w = 80;
   this.speed = pipeSpeed;
@@ -148,48 +161,26 @@ function Pipe() {
       return true;
     }
 
-    // RIGHT SIDE OF PIPE LEFT SIDE OF RECT
-    // if (rectangle.y < this.top || rectangle.y + rectangle.height > canvas.height - this.bottom) {
-    //   if (rectangle.x < this.x + this.w && rectangle.x > this.x) {
-    //     this.highlight = true;
-    //     return true;
-    //     console.log("HIT");
-    //   }
-    // }
-
-    // TOP AND BOTTOM SIDES OF PIPES
-    // if (rectangle.x + rectangle.width > this.x && rectangle.x + rectangle.height < this.x + this.w) {
-    //   if (rectangle.y < this.top || rectangle.y > canvas.height - this.bottom) {
-    //     this.highlight = true;
-    //     return true;
-    //   }
-    // }
-    //
-    // if (rectangle.x > this.x && rectangle.x < this.x + this.w) {
-    //   if (rectangle.y < this.top || rectangle.y + rectangle.height > canvas.height - this.bottom) {
-    //     this.highlight = true;
-    //     return true;
-    //     console.log("HIT");
-    //   }
-    // }
-
-
-
     this.highlight = false;
     return false;
   }
 
   this.show = function() {
     c.fillStyle = "red"
-    if (this.highlight) {
-      c.fillStyle = "red";
-      c.fillRect(this.x, canvas.height - this.bottom, this.w, this.bottom);
-      c.fillRect(this.x, 0, this.w, this.top);
-    } else {
+    // if (this.highlight) {
+    //   c.fillStyle = "red";
+    //   c.fillRect(this.x, canvas.height - this.bottom, this.w, this.bottom);
+    //   c.fillRect(this.x, 0, this.w, this.top);
+    // } else {
     c.fillStyle = "black";
     c.fillRect(this.x, 0, this.w, this.top);
+    c.drawImage(bod, 1, 1, 200, 700, this.x, 0, this.w, this.top);
     c.fillRect(this.x, canvas.height - this.bottom, this.w, this.bottom);
-    }
+    // c.save();
+    c.drawImage(bod, 1, 1, 200, 700, this.x, canvas.height - this.bottom, this.w, this.bottom);
+    // c.rotate(Math.PI);
+    // c.restore();
+    // }
   }
 
   this.update = function() {
@@ -205,9 +196,11 @@ function Pipe() {
   }
 
   this.gameOver = function(rectangle) {
-    pipeSpeed = 0;
+    window.removeEventListener("keydown", controller.keyListener);
     rectangle.xVel = 0;
-    rectangle.yVel *= 0.9;
+    rectangle.yVel = 9;
+    rectLeftPull = 0;
+    bgSpeed = 0;
   }
 }
 
@@ -222,32 +215,34 @@ function draw() {
 
     if (pipes[i].hits(rectangle)) {
       // alert("YOU SUCK");
-      // console.log("you suck");
-      pipes[i].gameOver;
-    }
-
-
-    if (pipes[i].offscreen()) {
+      console.log("you suck");
+      lost = false;
+      pipes[i].gameOver(rectangle);
+      for (var i = pipes.length-1; i >= 0; i--) {
+        pipes[i].speed = 0;
+      }
+    } else { if (pipes[i].offscreen()) {
       pipes.splice(i, 1);
+      }
     }
-
 
   }
 // Increase game speed/difficulty
-  ++frameCount;
+  if (lost != false) {
+    ++frameCount;
+  }
   if (frameCount % 60 == 0) {
     pipes.push(new Pipe());
     frameCount = 0;
     ++times;
     if (times === 5) {
       pipeSpeed *= 1.2;
-      rectLeftPull *= 1.2;
-      // console.log(times);
+      rectLeftPull *= 1.05;
+      bgSpeed *= 1.2;
       times = 0;
       for (var i = pipes.length-1; i >= 0; i--) {
         pipes[i].speed = pipeSpeed;
       }
-      // console.log(times);
     }
   }
 
