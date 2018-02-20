@@ -5,12 +5,14 @@
     <title>JavaScript Project</title>
     <style type="text/css">
       canvas {
-        border: 1px solid black;
+        position: relative;
+        border: 1px solid #9c8156;
         padding-left: 0;
-      padding-right: 0;
-      margin-left: auto;
-      margin-right: auto;
-      display: block;
+        padding-right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        display: inline-block;
+        top: 140px;
       }
 
       /* #container { position: relative; } */
@@ -21,23 +23,57 @@
       }
     </style>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
   </head>
   <body>
-    <div id="container">
-      <canvas class="canvas" id="game"></canvas>
-      <img id="img" src="/Users/Invictus/Desktop/App_Academy/JSP/TheCoinCollector/images/preview.png" alt="Devil"
-      style="display: none;">
-      <img id="BG" src="/Users/Invictus/Desktop/App_Academy/JSP/TheCoinCollector/images/REALBACKGROUN.svg" alt="BG"
-      style="display: none;">
-      <img id="BOD" src="/Users/Invictus/Desktop/App_Academy/JSP/TheCoinCollector/images/untitled.svg" alt="BOD"
-      style="display: none;">
-      <script src="canvas.js"></script>
+    <div id="navbar">
+      <p id="title">Flappy BlueJay</p>
     </div>
-    <div id="myModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>Some text in the Modal..</p>
+    <div id="container">
+      <div id="instructions-container">
+        <ul id="instructions">
+          How to Play
+          <li>Spacebar: Flap Up</li>
+          <li>Left Arrow: Move Left</li>
+          <li>Right Arrow: Move Right</li>
+        </ul>
+      </div>
+      <canvas class="canvas" id="game"></canvas>
+      <img id="img" src="images/preview.png" alt="Devil"
+      style="display: none;">
+      <img id="BG" src="images/REALBACKGROUN.svg" alt="BG"
+      style="display: none;">
+      <img id="BOD" src="images/untitled.svg" alt="BOD"
+      style="display: none;">
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <!-- <span class="close">&times;</span> -->
+          <p>You lose. Refresh browser to play again.</p>
+        </div>
       </div>
     </div>
+    <script src="canvas.js"></script>
+    <script>
+      // Get the modal
+      var modal = document.getElementById('myModal');
+
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+      //
+      // // When the user clicks the button, open the modal
+      //
+      // // When the user clicks on <span> (x), close the modal
+      // span.onclick = function() {
+      //     modal.style.display = "none";
+      // }
+      //
+      // // When the user clicks anywhere outside of the modal, close it
+      // window.onclick = function(event) {
+      //     if (event.target == modal) {
+      //         modal.style.display = "none";
+      //     }
+      // }
+    </script>
   </body>
 </html>

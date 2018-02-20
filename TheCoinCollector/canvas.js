@@ -1,5 +1,4 @@
 var canvas = document.getElementById('game');
-// let canvas = document.createElement("canvas"),
 
 canvas.width = 1000;
 canvas.height = 600;
@@ -197,6 +196,7 @@ function Pipe() {
 
   this.gameOver = function(rectangle) {
     window.removeEventListener("keydown", controller.keyListener);
+    window.addEventListener("keyup", controller.keyListener);
     rectangle.xVel = 0;
     rectangle.yVel = 9;
     rectLeftPull = 0;
@@ -207,6 +207,10 @@ function Pipe() {
 let pipes = [];
 let frameCount = 0;
 let times = 0;
+var modal = document.getElementById('myModal');
+var span = document.getElementsByClassName("close")[0];
+
+
 pipes.push(new Pipe());
 function draw() {
   for (var i = pipes.length-1; i >= 0; i--) {
@@ -220,6 +224,17 @@ function draw() {
       pipes[i].gameOver(rectangle);
       for (var i = pipes.length-1; i >= 0; i--) {
         pipes[i].speed = 0;
+      }
+      modal.style.display = "block";
+      span.onclick = function() {
+          modal.style.display = "none";
+      };
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
       }
     } else { if (pipes[i].offscreen()) {
       pipes.splice(i, 1);
