@@ -76,7 +76,6 @@ let loop = function() {
     rectangle.xVel += 2;
   }
 
-  // console.log(Math.floor(rectangle.x));
   rectangle.yVel += 0.5;
   rectangle.x += rectangle.xVel;
   rectangle.y += rectangle.yVel;
