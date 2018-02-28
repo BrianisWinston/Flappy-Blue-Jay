@@ -109,7 +109,7 @@ let loop = function() {
 
   c.fillStyle = "white";
   c.fillRect(0, 0, canvas.width, canvas.height);
-  // c.fillStyle = "#ff0000";
+  // c.fillStyle = "#ff00";
   // -------------------------------------------------------------------------------------------------------------------------------------
   c.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
   background.render();
