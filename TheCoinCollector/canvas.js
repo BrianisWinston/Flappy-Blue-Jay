@@ -58,21 +58,21 @@ let controller = {
 };
 
 let loop = function() {
-  if (controller.up && rectangle.jumping == false ) {
+  if (controller.up && rectangle.jumping == false && lost != true) {
     rectangle.yVel -= 6;
     rectangle.jumping = true;
   }
 
-  if (controller.up && rectangle.jumping == true) {
+  if (controller.up && rectangle.jumping == true && lost != true) {
     rectangle.yVel -= 6;
     rectangle.yVel *= 0.5;
   }
 
-  if (controller.left) {
+  if (controller.left && lost != true) {
     rectangle.xVel -= 2;
   }
 
-  if (controller.right) {
+  if (controller.right && lost != true) {
     rectangle.xVel += 2;
   }
 
@@ -186,6 +186,9 @@ function Pipe() {
   }
 
   this.offscreen = function() {
+    if (lost == true) {
+      return false;
+    }
     if (this.x < -this.w - 80) {
       return true;
     } else {
@@ -212,22 +215,35 @@ var span = document.getElementsByClassName("close")[0];
 
 pipes.push(new Pipe());
 function draw() {
+  if (lost == true) {
+    for (var i = 0; i <= pipes.length-1; i++) {
+      frameCount = 0;
+      pipeSpeed *= 0;
+      rectLeftPull *= 0;
+      bgSpeed *= 0;
+      times = -1;
+      pipes[i].speed = pipeSpeed;
+    }
+  }
   for (var i = pipes.length-1; i >= 0; i--) {
     pipes[i].show();
-    pipes[i].update();
+    if (lost != true) {
+      pipes[i].update();
+    }
 
     if (pipes[i].hits(rectangle)) {
       // alert("YOU SUCK");
-      console.log("you suck");
-      lost = false;
+      // console.log("you suck");
+      lost = true;
       pipes[i].gameOver(rectangle);
       for (var i = pipes.length-1; i >= 0; i--) {
         pipes[i].speed = 0;
+        pipeSpeed = 0;
       }
       modal.style.display = "block";
-      span.onclick = function() {
-          modal.style.display = "none";
-      };
+      // span.onclick = function() {
+      //     modal.style.display = "none";
+      // };
 
       // When the user clicks anywhere outside of the modal, close it
       window.onclick = function(event) {
@@ -235,21 +251,22 @@ function draw() {
               modal.style.display = "none";
           }
       }
-    } else { if (pipes[i].offscreen()) {
+    } else { if (pipes[i].offscreen() && lost != true) {
       pipes.splice(i, 1);
       }
     }
 
   }
 // Increase game speed/difficulty
-  if (lost != false) {
+  if (lost != true) {
     ++frameCount;
   }
-  if (frameCount % 60 == 0) {
+  if (frameCount % 60 == 0 && lost != true) {
     pipes.push(new Pipe());
+    console.log(pipes);
     frameCount = 0;
     ++times;
-    if (times === 5) {
+    if (times === 5 && lost != true) {
       pipeSpeed *= 1.2;
       rectLeftPull *= 1.05;
       bgSpeed *= 1.2;
@@ -260,7 +277,9 @@ function draw() {
     }
   }
 
+  // if (lost != true) {
 
-  window.requestAnimationFrame(draw);
+    window.requestAnimationFrame(draw);
+  // }
 }
 window.requestAnimationFrame(draw);
