@@ -132,7 +132,7 @@ window.requestAnimationFrame(loop);
 function Pipe() {
   this.top = 150 + (Math.floor(Math.random() * ((canvas.height/2) - 250)));
   this.bottom = 150 + (Math.floor(Math.random() * ((canvas.height/2) - 250)));
-  this.x = canvas.width;
+  this.x = canvas.width + 80;
   this.w = 80;
   this.speed = pipeSpeed;
 
