@@ -136,7 +136,7 @@ function Pipe() {
   this.w = 80;
   this.speed = pipeSpeed;
 
-  this.highlight = false;
+  // this.highlight = false;
 
   this.hits = function(rectangle) {
     // LEFT SIDE OF PIPE LEFT SIDE OF RECT
@@ -170,12 +170,13 @@ function Pipe() {
     //   c.fillRect(this.x, canvas.height - this.bottom, this.w, this.bottom);
     //   c.fillRect(this.x, 0, this.w, this.top);
     // } else {
-    c.fillStyle = "black";
+    c.fillStyle = "transparent";
     c.fillRect(this.x, 0, this.w, this.top);
-    c.drawImage(bod, 1, 1, 200, 700, this.x, 0, this.w, this.top);
+    c.drawImage(bod, 1, 1, 200, 650, this.x - 30, 0, this.w + 100, this.top + 20);
     c.fillRect(this.x, canvas.height - this.bottom, this.w, this.bottom);
-    // c.save();
-    c.drawImage(bod, 1, 1, 200, 700, this.x, canvas.height - this.bottom, this.w, this.bottom);
+    c.save();
+    c.drawImage(bod, 1, 1, 200, 700, this.x - 30, canvas.height - this.bottom, this.w + 100, this.bottom + 20);
+    c.save();
     // c.rotate(Math.PI);
     // c.restore();
     // }
@@ -203,6 +204,8 @@ function Pipe() {
     rectangle.yVel = 9;
     rectLeftPull = 0;
     bgSpeed = 0;
+    pipeSpeed = 0;
+    this.show();
   }
 }
 
@@ -216,13 +219,14 @@ var span = document.getElementsByClassName("close")[0];
 pipes.push(new Pipe());
 function draw() {
   if (lost == true) {
+    times = -1;
     for (var i = 0; i <= pipes.length-1; i++) {
       frameCount = 0;
-      pipeSpeed *= 0;
+      pipeSpeed = 0;
       rectLeftPull *= 0;
       bgSpeed *= 0;
-      times = -1;
       pipes[i].speed = pipeSpeed;
+      pipes[i].show();
     }
   }
   for (var i = pipes.length-1; i >= 0; i--) {
@@ -251,8 +255,8 @@ function draw() {
               modal.style.display = "none";
           }
       }
-    } else { if (pipes[i].offscreen() && lost != true) {
-      pipes.splice(i, 1);
+    } else { if (pipes[i].offscreen() == true && lost != true) {
+        pipes.splice(i, 1);
       }
     }
 
@@ -263,7 +267,7 @@ function draw() {
   }
   if (frameCount % 60 == 0 && lost != true) {
     pipes.push(new Pipe());
-    console.log(pipes);
+    // console.log(pipes);
     frameCount = 0;
     ++times;
     if (times === 5 && lost != true) {
