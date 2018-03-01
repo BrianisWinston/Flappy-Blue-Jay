@@ -171,11 +171,12 @@ function Pipe() {
     //   c.fillRect(this.x, 0, this.w, this.top);
     // } else {
     c.fillStyle = "transparent";
+    // c.fillStyle = "black";
     c.fillRect(this.x, 0, this.w, this.top);
-    c.drawImage(bod, 1, 1, 200, 650, this.x - 30, 0, this.w + 100, this.top + 20);
+    c.drawImage(bod, 1, 1, 200, 650, this.x - 90, -70, this.w + 200, this.top + 80);
     c.fillRect(this.x, canvas.height - this.bottom, this.w, this.bottom);
     c.save();
-    c.drawImage(bod, 1, 1, 200, 700, this.x - 30, canvas.height - this.bottom, this.w + 100, this.bottom + 20);
+    c.drawImage(bod, 1, 1, 200, 700, this.x - 60, canvas.height - this.bottom, this.w + 150, this.bottom + 80);
     c.save();
     // c.rotate(Math.PI);
     // c.restore();
