@@ -173,8 +173,11 @@ function Pipe() {
     c.fillStyle = "transparent";
     // c.fillStyle = "black";
     c.fillRect(this.x, 0, this.w, this.top);
+    c.save();
+    // c.rotate(45 * Math.PI / 180)
     c.drawImage(bod, 1, 1, 200, 650, this.x - 90, -70, this.w + 200, this.top + 80);
     c.fillRect(this.x, canvas.height - this.bottom, this.w, this.bottom);
+    c.restore();
     c.save();
     c.drawImage(bod, 1, 1, 200, 700, this.x - 60, canvas.height - this.bottom, this.w + 150, this.bottom + 80);
     c.save();
@@ -210,6 +213,14 @@ function Pipe() {
   }
 }
 
+function Coin() {
+  this.placement = 150 + (Math.floor(Math.random() * ((canvas.height/2) - 250)));
+  this.x = canvas.width + 80;
+  this.w = 80;
+  this.speed = pipeSpeed;
+}
+
+let coins = [];
 let pipes = [];
 let frameCount = 0;
 let times = 0;
