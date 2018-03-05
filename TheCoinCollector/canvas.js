@@ -279,7 +279,6 @@ function draw() {
   }
   if (frameCount % 60 == 0 && lost != true) {
     pipes.push(new Pipe());
-    // console.log(pipes);
     frameCount = 0;
     ++times;
     if (times === 5 && lost != true) {
