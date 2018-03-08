@@ -134,7 +134,6 @@ function Pipe() {
   this.w = 80;
   this.speed = pipeSpeed;
 
-  // this.highlight = false;
 
   this.hits = function(rectangle) {
     // LEFT SIDE OF PIPE LEFT SIDE OF RECT
