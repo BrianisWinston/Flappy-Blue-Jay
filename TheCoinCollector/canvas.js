@@ -235,6 +235,7 @@ function draw() {
       bgSpeed *= 0;
       pipes[i].speed = pipeSpeed;
       pipes[i].show();
+      // WHERE PIPES GO AWAY AT GAME OVER SCREEN --------------------------------------------------------------
     }
   }
   for (var i = pipes.length-1; i >= 0; i--) {
