@@ -9,6 +9,7 @@ let bod = document.getElementById('BOD');
 let bgSpeed = 1;
 let pipeSpeed = 6;
 let rectLeftPull = 2;
+let score = 0;
 let lost;
 
 let rectangle = {
@@ -18,7 +19,7 @@ let rectangle = {
   y: canvas.height - 50,
   xVel: 0,
   yVel: 0,
-  jumping: true,
+  jumping: false,
 };
 
 function Background() {
@@ -133,6 +134,7 @@ function Pipe() {
   this.x = canvas.width + 80;
   this.w = 80;
   this.speed = pipeSpeed;
+  this.crossed = false;
 
 
   this.hits = function(rectangle) {
@@ -177,17 +179,16 @@ function Pipe() {
     c.save();
     c.drawImage(bod, 1, 1, 200, 700, this.x - 60, canvas.height - this.bottom, this.w + 150, this.bottom + 80);
     c.save();
-    c.font="16px Verdana";
-    c.fillStyle = "red";
-    c.fillText("Score: 200", 100, 50);
     // c.rotate(Math.PI);
     // }
   }
 
   this.score = function() {
-    c.font="30px Verdana";
-    c.fillStyle="blue";
-    c.fillText("Score: 200", 500, 50);
+    c.font="30px Impact, Charcoal, sans-serif";
+    c.fillStyle="#3eaeee";
+    c.fillText("Score: " + score, 50, 50);
+    c.fillStyle="black";
+    c.strokeText("Score: " + score, 50, 50);
   }
 
   this.update = function() {
@@ -246,7 +247,10 @@ function draw() {
     if (lost != true) {
       pipes[i].update();
     }
-
+    if (rectangle.x > pipes[i].x && pipes[i].crossed == false) {
+      ++score;
+      pipes[i].crossed = true;
+    }
     if (pipes[i].hits(rectangle)) {
       // alert("YOU SUCK");
       // console.log("you suck");
