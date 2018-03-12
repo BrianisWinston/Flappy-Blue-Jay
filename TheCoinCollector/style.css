@@ -74,3 +74,13 @@ background-color: #fbdd90;
   font-size: 60px;
   margin: auto;
 }
+
+#img {
+  position: fixed;
+  z-index: 0;
+}
+
+#BOD {
+  position: fixed;
+  z-index: 1;
+}

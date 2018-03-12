@@ -161,7 +161,6 @@ function Pipe() {
   }
 
   this.show = function() {
-    c.fillStyle = "red"
     // if (this.highlight) {
     //   c.fillStyle = "red";
     //   c.fillRect(this.x, canvas.height - this.bottom, this.w, this.bottom);
@@ -178,8 +177,17 @@ function Pipe() {
     c.save();
     c.drawImage(bod, 1, 1, 200, 700, this.x - 60, canvas.height - this.bottom, this.w + 150, this.bottom + 80);
     c.save();
+    c.font="16px Verdana";
+    c.fillStyle = "red";
+    c.fillText("Score: 200", 100, 50);
     // c.rotate(Math.PI);
     // }
+  }
+
+  this.score = function() {
+    c.font="30px Verdana";
+    c.fillStyle="blue";
+    c.fillText("Score: 200", 500, 50);
   }
 
   this.update = function() {
@@ -209,14 +217,7 @@ function Pipe() {
   }
 }
 
-function Coin() {
-  this.placement = 150 + (Math.floor(Math.random() * ((canvas.height/2) - 250)));
-  this.x = canvas.width + 80;
-  this.w = 80;
-  this.speed = pipeSpeed;
-}
 
-let coins = [];
 let pipes = [];
 let frameCount = 0;
 let times = 0;
@@ -226,6 +227,7 @@ var span = document.getElementsByClassName("close")[0];
 
 pipes.push(new Pipe());
 function draw() {
+
   if (lost == true) {
     times = -1;
     for (var i = 0; i <= pipes.length-1; i++) {
@@ -240,6 +242,7 @@ function draw() {
   }
   for (var i = pipes.length-1; i >= 0; i--) {
     pipes[i].show();
+    pipes[i].score();
     if (lost != true) {
       pipes[i].update();
     }
@@ -288,10 +291,6 @@ function draw() {
       }
     }
   }
-
-  // if (lost != true) {
-
-    window.requestAnimationFrame(draw);
-  // }
+  window.requestAnimationFrame(draw);
 }
 window.requestAnimationFrame(draw);
