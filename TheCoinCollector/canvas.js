@@ -169,7 +169,6 @@ function Pipe() {
     //   c.fillRect(this.x, 0, this.w, this.top);
     // } else {
     c.fillStyle = "transparent";
-    // c.fillStyle = "black";
     c.fillRect(this.x, 0, this.w, this.top);
     c.save();
     // c.rotate(45 * Math.PI / 180)
