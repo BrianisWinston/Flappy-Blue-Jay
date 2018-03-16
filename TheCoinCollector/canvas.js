@@ -44,10 +44,10 @@ function startover() {
   rectangle.xVel = 0;
   rectangle.yVel = 0;
   rectangle.jumping = false;
-  console.log(pipeSpeed);
+  scorekeeper();
   window.cancelAnimationFrame(loop);
   window.cancelAnimationFrame(draw);
-  window.addEventListener("keydown", controller.keyListener);
+  // window.addEventListener("keydown", controller.keyListener);
   // window.addEventListener("keyup", controller.keyListener);
   // window.requestAnimationFrame(loop);
   // window.requestAnimationFrame(draw);
@@ -80,12 +80,20 @@ function Background() {
   }
 }
 
+function scorekeeper() {
+  c.font="30px Impact, Charcoal, sans-serif";
+  c.fillStyle="#3eaeee";
+  c.fillText("Score: " + score, 50, 50);
+  c.fillStyle="black";
+  c.strokeText("Score: " + score, 50, 50);
+}
+
 function gameover() {
   c.font="30px Impact, Charcoal, sans-serif";
   c.fillStyle="#fdfdfd";
-  c.fillText("You scored " + score + ". Great job! Press spacebar to play again!", 200, 300);
+  c.fillText("You scored " + score + ". Great job! Press enter to play again!", 200, 300);
   c.fillStyle="black";
-  c.strokeText("You scored " + score + ". Great job! Press spacebar to play again!", 200, 300);
+  c.strokeText("You scored " + score + ". Great job! Press enter to play again!", 200, 300);
 }
 
 let background = new Background();
@@ -170,7 +178,6 @@ let loop = function() {
   } else {
     c.drawImage(bird, 00, 50, 580, 350, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
   };
-
 
   window.requestAnimationFrame(loop);
 };
@@ -291,7 +298,7 @@ function draw() {
       // end.style.display = "block";
       gameover();
       document.body.onkeyup = function(e){
-        if (e.keyCode == 32 && lost == true){
+        if (e.keyCode == 13 && lost == true){
           lost = false;
           bgSpeed = 1;
           pipeSpeed = 6;
@@ -308,7 +315,6 @@ function draw() {
   }
   for (var i = pipes.length-1; i >= 0; i--) {
     pipes[i].show();
-    pipes[i].score();
     if (lost != true) {
       pipes[i].update();
     }
@@ -351,12 +357,14 @@ function draw() {
       }
     }
   }
+  scorekeeper();
+
   window.requestAnimationFrame(draw);
 }
 
 
 document.body.onkeyup = function(e){
-    if(e.keyCode == 32 && started == false && lost != true){
+    if(e.keyCode == 13 && started == false && lost != true){
         //your code
         begin.style.display = "none";
         bgSpeed = 1;

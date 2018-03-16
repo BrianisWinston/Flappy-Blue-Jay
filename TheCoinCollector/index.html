@@ -5,14 +5,11 @@
     <title>JavaScript Project</title>
     <style type="text/css">
       canvas {
-        position: relative;
+        position: absolute;
         border: 1px solid #9c8156;
-        padding-left: 0;
-        padding-right: 0;
-        margin-left: auto;
-        margin-right: auto;
-        display: inline-block;
-        top: 140px;
+        /* padding-left: 0; */
+        top: 150px;
+        z-index: 1;
       }
 
       /* #container { position: relative; } */
@@ -24,32 +21,46 @@
     </style>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
   </head>
   <body>
     <div id="navbar">
       <p id="title">Flappy BlueJay</p>
     </div>
     <div id="container">
-      <div id="instructions-container">
-        <ul id="instructions">
-          How to Play
-          <li>Spacebar: Flap Up</li>
-          <li>Left Arrow: Move Left</li>
-          <li>Right Arrow: Move Right</li>
-        </ul>
+
+      <div class="centered-game">
+        <canvas class="canvas" id="game">
+        </canvas>
+        <div id="begin-screen">
+          <p>
+            Goal: Avoid touching the branches! Press enter to start.
+          </p>
+          <div id="howtoplay">
+            How to Play
+          </div>
+            <ul id="instructions">
+              <li>Spacebar: Flap Up</li>
+              <li>Hold Spacebar: Fly Up</li>
+              <li>Left Arrow: Move Left</li>
+              <li>Right Arrow: Move Right</li>
+            </ul>
+        </div>
+
       </div>
-      <canvas class="canvas" id="game"></canvas>
+      <a href="https://github.com/BrianisWinston">
+        <img id="github-icon-winston" src="https://png.icons8.com/metro/1600/github.png" alt="GitHub"/>
+      </a>
+      <a href="https://www.linkedin.com/in/winston-galas-96ab3ba3/">
+        <img id="linkedin-icon-winston" src="https://cdn3.iconfinder.com/data/icons/free-social-icons/67/linkedin_circle_black-256.png" alt="LinkedIn"/>
+      </a>
       <img id="img" src="images/preview.png" alt="Devil"
       style="display: none;">
       <img id="BG" src="images/REALBACKGROUN.svg" alt="BG"
       style="display: none;">
       <img id="BOD" src="images/untitled.svg" alt="BOD"
       style="display: none;">
-      <div id="begin-screen">
-        <p>
-          Goal: Avoid touching the branches!
-        </p>
-      </div>
+
       <div id="gameover-screen"></div>
       <div id="myModal" class="modal">
         <div class="modal-content">

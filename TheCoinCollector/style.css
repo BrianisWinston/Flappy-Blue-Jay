@@ -5,13 +5,34 @@
 }
 
 #instructions-container {
-  display: inline-block;
+  /* position: relative;
+  top: 100px;
+  width: 1000px;
+  height: 99px;
+  z-index: 1;
+  border: 1px solid #9c8156;
+  background-color: lightgoldenrodyellow; */
 }
 
 #instructions {
-  justify-content: center;
-  position: relative;
-  top: -333px;
+  /* margin: 0 auto; */
+  margin-left: 302px;
+  /* color: black; */
+  font-size: 27px;
+  /* margin: 200px 10px 10px 30px; */
+  text-align: center;
+  font-family: 'Lora', serif;
+  width: 312px;
+  list-style-type: none;
+  /* justify-content: center; */
+  /* position: relative; */
+}
+
+#howtoplay {
+  font-size: 59px;
+  margin-top: 17px;
+  /* margin: 200px 10px 10px 30px; */
+  text-align: center;
 }
 
 html {
@@ -88,29 +109,32 @@ background-color: #fbdd90;
 #begin-screen {
   display: block;
   position: absolute;
-  top: 140px;
+  top: 150px;
   width: 1000px;
   height: 600px;
   background-color: transparent;
-  background:rgba(255,255,255,0.5);
+  background:rgba(255,255,255,0.7);
   z-index: 2;
   border: 1px solid #9c8156;
   /* padding-left: 0; */
   /* padding-right: 0; */
-  margin-left: 211px;
+  /* margin-left: 211px; */
   /* margin-right: auto; */
   /* display: inline-block; */
 }
 
 #begin-screen p {
-  color: red;
-  font-size: 100px;
+  color: black;
+  font-size: 60px;
+  margin: 130px 10px 10px 30px;
+  text-align: center;
+  font-family: 'Lora', serif;
 }
 
 #gameover-screen {
   display: none;
   position: absolute;
-  top: 140px;
+  top: 150px;
   width: 1000px;
   height: 600px;
   background-color: transparent;
@@ -118,4 +142,27 @@ background-color: #fbdd90;
   z-index: 2;
   border: 1px solid #9c8156;
   margin-left: 211px;
+}
+
+.centered-game {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+#github-icon-winston {
+  position: fixed;
+  right: 20px;
+  top: 95%;
+  height: 30px;
+  z-index: 1;
+  font-size: 20px;
+}
+
+#linkedin-icon-winston {
+  position: fixed;
+  right: 80px;
+  top: 95%;
+  height: 30px;
+  z-index: 1;
+  font-size: 20px;
 }
