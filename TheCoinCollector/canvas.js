@@ -11,6 +11,13 @@ let pipeSpeed = 6;
 let rectLeftPull = 2;
 let score = 0;
 let lost;
+var begin = document.getElementById('begin-screen');
+let started = false;
+let end = document.getElementById('gameover-screen');
+let pipes = [];
+let frameCount = 0;
+let times = 0;
+
 
 let rectangle = {
   width: 100,
@@ -22,7 +29,45 @@ let rectangle = {
   jumping: false,
 };
 
+function startover() {
+  bgSpeed = 1;
+  pipeSpeed = 6;
+  rectLeftPull = 2;
+  score = 0;
+  pipes = [];
+  frameCount = 0;
+  times = 0;
+  rectangle.width = 100;
+  rectangle.height = 70;
+  rectangle.x = canvas.width - 500;
+  rectangle.y = canvas.height - 50;
+  rectangle.xVel = 0;
+  rectangle.yVel = 0;
+  rectangle.jumping = false;
+  console.log(pipeSpeed);
+  window.cancelAnimationFrame(loop);
+  window.cancelAnimationFrame(draw);
+  window.addEventListener("keydown", controller.keyListener);
+  // window.addEventListener("keyup", controller.keyListener);
+  // window.requestAnimationFrame(loop);
+  // window.requestAnimationFrame(draw);
+}
+
+function beginscreen() {
+  background.render();
+  c.drawImage(bird, 00, 50, 580, 350, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+  c.font="30px Impact, Charcoal, sans-serif";
+  c.fillStyle="#3eaeee";
+  c.fillText("Score: " + score, 50, 50);
+  c.fillStyle="black";
+  c.strokeText("Score: " + score, 50, 50);
+  window.requestAnimationFrame(beginscreen);
+}
+
 function Background() {
+  if( lost == true ) {
+    bgSpeed = 1;
+  }
   this.x = 0,
   this.y = 0,
   this.w = canvas.width,
@@ -33,6 +78,14 @@ function Background() {
       this.x = 0;
     }
   }
+}
+
+function gameover() {
+  c.font="30px Impact, Charcoal, sans-serif";
+  c.fillStyle="#fdfdfd";
+  c.fillText("You scored " + score + ". Great job! Press spacebar to play again!", 200, 300);
+  c.fillStyle="black";
+  c.strokeText("You scored " + score + ". Great job! Press spacebar to play again!", 200, 300);
 }
 
 let background = new Background();
@@ -125,7 +178,7 @@ let loop = function() {
 
 window.addEventListener("keydown", controller.keyListener);
 window.addEventListener("keyup", controller.keyListener);
-window.requestAnimationFrame(loop);
+// window.requestAnimationFrame(loop);
 
 
 function Pipe() {
@@ -206,8 +259,8 @@ function Pipe() {
   }
 
   this.gameOver = function(rectangle) {
-    window.removeEventListener("keydown", controller.keyListener);
-    window.addEventListener("keyup", controller.keyListener);
+    // window.removeEventListener("keydown", controller.keyListener);
+    // window.addEventListener("keyup", controller.keyListener);
     rectangle.xVel = 0;
     rectangle.yVel = 9;
     rectLeftPull = 0;
@@ -218,25 +271,38 @@ function Pipe() {
 }
 
 
-let pipes = [];
-let frameCount = 0;
-let times = 0;
-var modal = document.getElementById('myModal');
-var span = document.getElementsByClassName("close")[0];
+
+// var modal = document.getElementById('myModal');
+// var span = document.getElementsByClassName("close")[0];
 
 
 pipes.push(new Pipe());
 function draw() {
 
   if (lost == true) {
-    times = -1;
+    // times = -1;
     for (var i = 0; i <= pipes.length-1; i++) {
-      frameCount = 0;
-      pipeSpeed = 0;
-      rectLeftPull *= 0;
-      bgSpeed *= 0;
-      pipes[i].speed = pipeSpeed;
+      // frameCount = 0;
+      // pipeSpeed = 0;
+      // rectLeftPull *= 0;
+      // bgSpeed *= 0;
+      // pipes[i].speed = pipeSpeed;
       pipes[i].show();
+      // end.style.display = "block";
+      gameover();
+      document.body.onkeyup = function(e){
+        if (e.keyCode == 32 && lost == true){
+          lost = false;
+          bgSpeed = 1;
+          pipeSpeed = 6;
+          rectLeftPull = 2;
+          score = 0;
+          pipes = [];
+          frameCount = 0;
+          times = 0;
+          startover();
+        }
+      }
       // WHERE PIPES GO AWAY AT GAME OVER SCREEN --------------------------------------------------------------
     }
   }
@@ -259,17 +325,8 @@ function draw() {
         pipes[i].speed = 0;
         pipeSpeed = 0;
       }
-      modal.style.display = "block";
-      // span.onclick = function() {
-      //     modal.style.display = "none";
-      // };
 
-      // When the user clicks anywhere outside of the modal, close it
-      window.onclick = function(event) {
-          if (event.target == modal) {
-              modal.style.display = "none";
-          }
-      }
+      // window.requestAnimationFrame(beginscreen);
     } else { if (pipes[i].offscreen() == true && lost != true) {
         pipes.splice(i, 1);
       }
@@ -296,4 +353,20 @@ function draw() {
   }
   window.requestAnimationFrame(draw);
 }
-window.requestAnimationFrame(draw);
+
+
+document.body.onkeyup = function(e){
+    if(e.keyCode == 32 && started == false && lost != true){
+        //your code
+        begin.style.display = "none";
+        bgSpeed = 1;
+        started = true;
+        window.cancelAnimationFrame(beginscreen);
+        window.requestAnimationFrame(loop);
+        window.requestAnimationFrame(draw);
+    }
+}
+if(started == false) {
+  bgSpeed = 0;
+  window.requestAnimationFrame(beginscreen);
+}

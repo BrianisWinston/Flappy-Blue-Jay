@@ -84,3 +84,38 @@ background-color: #fbdd90;
   position: fixed;
   z-index: 1;
 }
+
+#begin-screen {
+  display: block;
+  position: absolute;
+  top: 140px;
+  width: 1000px;
+  height: 600px;
+  background-color: transparent;
+  background:rgba(255,255,255,0.5);
+  z-index: 2;
+  border: 1px solid #9c8156;
+  /* padding-left: 0; */
+  /* padding-right: 0; */
+  margin-left: 211px;
+  /* margin-right: auto; */
+  /* display: inline-block; */
+}
+
+#begin-screen p {
+  color: red;
+  font-size: 100px;
+}
+
+#gameover-screen {
+  display: none;
+  position: absolute;
+  top: 140px;
+  width: 1000px;
+  height: 600px;
+  background-color: transparent;
+  /* background:rgba(77,82,89,0.75); */
+  z-index: 2;
+  border: 1px solid #9c8156;
+  margin-left: 211px;
+}
