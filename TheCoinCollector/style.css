@@ -4,27 +4,16 @@
   background-color: #fbdd90;
 }
 
-#instructions-container {
-  /* position: relative;
-  top: 100px;
-  width: 1000px;
-  height: 99px;
-  z-index: 1;
-  border: 1px solid #9c8156;
-  background-color: lightgoldenrodyellow; */
-}
 
 #instructions {
   /* margin: 0 auto; */
   margin-left: 302px;
-  /* color: black; */
   font-size: 27px;
   /* margin: 200px 10px 10px 30px; */
   text-align: center;
   font-family: 'Lora', serif;
   width: 312px;
   list-style-type: none;
-  /* justify-content: center; */
   /* position: relative; */
 }
 
@@ -117,10 +106,6 @@ background-color: #fbdd90;
   z-index: 2;
   border: 1px solid #9c8156;
   /* padding-left: 0; */
-  /* padding-right: 0; */
-  /* margin-left: 211px; */
-  /* margin-right: auto; */
-  /* display: inline-block; */
 }
 
 #begin-screen p {
@@ -138,7 +123,6 @@ background-color: #fbdd90;
   width: 1000px;
   height: 600px;
   background-color: transparent;
-  /* background:rgba(77,82,89,0.75); */
   z-index: 2;
   border: 1px solid #9c8156;
   margin-left: 211px;

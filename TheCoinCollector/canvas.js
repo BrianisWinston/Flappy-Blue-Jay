@@ -49,8 +49,6 @@ function startover() {
   window.cancelAnimationFrame(draw);
   // window.addEventListener("keydown", controller.keyListener);
   // window.addEventListener("keyup", controller.keyListener);
-  // window.requestAnimationFrame(loop);
-  // window.requestAnimationFrame(draw);
 }
 
 function beginscreen() {
