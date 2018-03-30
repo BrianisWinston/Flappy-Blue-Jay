@@ -277,15 +277,12 @@ function Pipe() {
 
 
 
-// var modal = document.getElementById('myModal');
-// var span = document.getElementsByClassName("close")[0];
 
 
 pipes.push(new Pipe());
 function draw() {
 
   if (lost == true) {
-    // times = -1;
     for (var i = 0; i <= pipes.length-1; i++) {
       // frameCount = 0;
       // pipeSpeed = 0;
