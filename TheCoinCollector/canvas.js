@@ -290,7 +290,6 @@ function draw() {
       // bgSpeed *= 0;
       // pipes[i].speed = pipeSpeed;
       pipes[i].show();
-      // end.style.display = "block";
       gameover();
       document.body.onkeyup = function(e){
         if (e.keyCode == 13 && lost == true){
