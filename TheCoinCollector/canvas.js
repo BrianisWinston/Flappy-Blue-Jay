@@ -183,7 +183,6 @@ let loop = function() {
 
 window.addEventListener("keydown", controller.keyListener);
 window.addEventListener("keyup", controller.keyListener);
-// window.requestAnimationFrame(loop);
 
 
 function Pipe() {
