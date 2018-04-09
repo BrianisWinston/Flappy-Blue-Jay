@@ -228,7 +228,6 @@ function Pipe() {
     c.fillStyle = "transparent";
     c.fillRect(this.x, 0, this.w, this.top);
     c.save();
-    // c.rotate(45 * Math.PI / 180)
     c.drawImage(bod, 1, 1, 200, 650, this.x - 90, -70, this.w + 200, this.top + 80);
     c.fillRect(this.x, canvas.height - this.bottom, this.w, this.bottom);
     c.restore();
