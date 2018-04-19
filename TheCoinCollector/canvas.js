@@ -234,7 +234,6 @@ function Pipe() {
     c.save();
     c.drawImage(bod, 1, 1, 200, 700, this.x - 60, canvas.height - this.bottom, this.w + 150, this.bottom + 80);
     c.save();
-    // c.rotate(Math.PI);
     // }
   }
 
