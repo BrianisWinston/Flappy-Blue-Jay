@@ -313,7 +313,6 @@ function draw() {
       pipes[i].crossed = true;
     }
     if (pipes[i].hits(rectangle)) {
-      // console.log("you suck");
       lost = true;
       pipes[i].gameOver(rectangle);
       for (var i = pipes.length-1; i >= 0; i--) {
