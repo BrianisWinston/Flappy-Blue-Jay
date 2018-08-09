@@ -353,7 +353,6 @@ function draw() {
 
 document.body.onkeyup = function(e){
     if(e.keyCode == 13 && started == false && lost != true){
-        //your code
         begin.style.display = "none";
         bgSpeed = 1;
         started = true;
